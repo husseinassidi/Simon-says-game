@@ -51,33 +51,29 @@ function handleClick(event) {
     if (clickedId) {
         userClickedPattern.push(clickedId);
 
+   
         console.log('Clicked ID:', clickedId);
         console.log('User Pattern:', userClickedPattern);
         console.log('Game Pattern:', gamePattern);
 
+   
         if (userClickedPattern[userClickedPattern.length - 1] !== gamePattern[userClickedPattern.length - 1].buttonId) {
+            console.log('lost');
             document.body.style.backgroundColor = 'red';
-            document.querySelector("#level-title").textContent = "Try again!";
-            lostAudio.play();
+            document.querySelector("#level-title").textContent = "You have Alzheimer's";
+
             setTimeout(() => {
-                document.body.style.backgroundColor = '';
-                document.querySelector("#level-title").textContent = "Level " + (currentLevel + 1);
-                resetGame();
+                resetGame();                
             }, 3000);
         } else if (userClickedPattern.length === gamePattern.length) {
-            setTimeout(() => {
-                console.log('Success');
-                document.querySelector("#level-title").textContent = "Level Up!";
-                setTimeout(() => {
-                    document.querySelector("#level-title").textContent = "Level " + (currentLevel + 1);
-                    nextLevel();
-                }, 2000);
-            }, 1000);
-        } else {
-            playSound(gamePattern[userClickedPattern.length - 1].sound);
+
+            console.log('Success');
+
+            nextLevel();
         }
     }
 }
+
 
 function resetGame() {
     started = false;
@@ -91,6 +87,10 @@ function resetGame() {
 }
 
 function nextLevel() {
+    gamePattern = [];
+    userClickedPattern = [];
+
+
     level++;
     if (level >= levels.length) {
         console.log('Game Completed!');
@@ -107,6 +107,8 @@ function nextLevel() {
     document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', handleClick);
     });
+    document.querySelector("#level-title").textContent = `Level ${currentLevel.level_id}`;
+
 }
 
 document.addEventListener('keypress', () => {
